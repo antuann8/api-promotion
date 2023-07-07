@@ -68,7 +68,7 @@ const routesStart = () => {
 	require('./routes/users')(server);
 	require('./routes/promo')(server);
 	require('./routes/creator')(server);
-	require('./routes/color')(server);
+	require('./routes/params')(server);
 	require('./routes/clear')(server);
 	require('./routes/block')(server);
 	// external api

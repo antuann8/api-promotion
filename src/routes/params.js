@@ -24,8 +24,9 @@ module.exports = (server) => {
             const backcolor = data.backcolor;
             const fontSize = data.fontSize;
             const color = data.color;
+            const width = data.width;
 
-            console.log(`Блок № ${index + 1} : ${fontFamily} - ${backcolor} - ${fontSize} - ${color}`);
+            console.log(`Блок № ${index + 1} : ${fontFamily} - ${backcolor} - ${fontSize} - ${color} - ${width}`);
             // Отрендерить HTML-блок с использованием EJS
             const blockTemplatePath = path.join(__dirname, '../template/block.ejs');
             const renderedBlock = await ejs.renderFile(blockTemplatePath, {
@@ -33,6 +34,7 @@ module.exports = (server) => {
                 backcolor,
                 fontSize,
                 color,
+                width,
                 ...req.body });
             htmlBlocks[index] = renderedBlock;
             res.send();

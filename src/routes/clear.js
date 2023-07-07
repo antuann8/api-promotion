@@ -34,16 +34,7 @@ module.exports = (server) => {
             const index = req.body;
 
             htmlBlocks.splice(index, 1);
-
-            // Путь к EJS-файлу
-            const ejsFilePath = path.join(__dirname, '../template/letter.ejs');
-
-            // Рендеринг EJS-шаблона с передачей массива htmlBlocks
-            const renderedContent = await ejs.renderFile(ejsFilePath, { htmlBlocks });
-
-            // Установка заголовка Content-Type как text/html
-            res.setHeader('Content-Type', 'text/html');
-
+            console.log(index);
             // Отправка HTML-страницы в ответе
             res.send();
         } catch (err) {

@@ -58,6 +58,29 @@ module.exports = (server) => {
         }
     });
 
+    server.post(`${config.API_PATH}/creator/addArrowBlock`, async (req, res, next) => {
+        try {
+
+            // const backcolor = req.body.backcolor; // start backcolor
+            // const fontFamily = req.body.fontFamily; // start fontFamily
+            // const fontSize = req.body.fontSize;
+
+            // Отрендерить HTML-блок с использованием EJS
+            const blockTemplatePath = path.join(__dirname, '../template/arrowBlock.ejs');
+            // const renderedBlock = await ejs.renderFile(blockTemplatePath, { backcolor, fontFamily, fontSize, ...req.body });
+            const renderedBlock = await ejs.renderFile(blockTemplatePath);
+
+            // Добавление нового блока HTML-кода в массив
+            htmlBlocks.push(renderedBlock);
+
+            res.send();
+        } catch (err) {
+            console.log(666, err);
+            res.status(500).send('Internal Server Error');
+            next();
+        }
+    });
+
     module.exports = { htmlBlocks };
 };
 

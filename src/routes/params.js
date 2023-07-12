@@ -27,10 +27,19 @@ module.exports = (server) => {
             const width = data.width;
             const height = data.height;
             const text = data.text;
+            const blockType = data.blockType;
 
             console.log(`Блок № ${index + 1} : ${fontFamily} - ${backcolor} - ${fontSize} - ${color} - ${width} - ${height} - ${text}`);
             // Отрендерить HTML-блок с использованием EJS
-            const blockTemplatePath = path.join(__dirname, '../template/block.ejs');
+
+            let blockTemplatePath = '';
+
+            if (blockType === 'text') {
+                blockTemplatePath = path.join(__dirname, '../template/block.ejs');
+            } else if (blockType === 'arrow') {
+                blockTemplatePath = path.join(__dirname, '../template/arrowBlock.ejs');
+            }
+
             const renderedBlock = await ejs.renderFile(blockTemplatePath, {
                 fontFamily,
                 backcolor,

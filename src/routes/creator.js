@@ -78,6 +78,24 @@ module.exports = (server) => {
         }
     });
 
+    server.post(`${config.API_PATH}/creator/addImageBlock`, async (req, res, next) => {
+        try {
+
+            // Отрендерить HTML-блок с использованием EJS
+            const blockTemplatePath = path.join(__dirname, '../template/imageBlock.ejs');
+            const renderedBlock = await ejs.renderFile(blockTemplatePath, { ...req.body });
+
+            // Добавление нового блока HTML-кода в массив
+            htmlBlocks.push(renderedBlock);
+
+            res.send();
+        } catch (err) {
+            console.log(666, err);
+            res.status(500).send('Internal Server Error');
+            next();
+        }
+    });
+
     module.exports = { htmlBlocks };
 };
 

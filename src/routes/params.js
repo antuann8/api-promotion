@@ -28,27 +28,39 @@ module.exports = (server) => {
             const height = data.height;
             const text = data.text;
             const blockType = data.blockType;
+            const arrow = data.arrow;
 
-            console.log(`Блок № ${index + 1} : ${fontFamily} - ${backcolor} - ${fontSize} - ${color} - ${width} - ${height} - ${text}`);
+            console.log(`Блок № ${index + 1} : ${fontFamily} - ${backcolor} - ${fontSize} - ${color} - ${width} - ${height} - ${text} - ${arrow}`);
             // Отрендерить HTML-блок с использованием EJS
 
             let blockTemplatePath = '';
+            let renderedBlock;
 
             if (blockType === 'text') {
                 blockTemplatePath = path.join(__dirname, '../template/block.ejs');
+                renderedBlock = await ejs.renderFile(blockTemplatePath, {
+                    fontFamily,
+                    backcolor,
+                    fontSize,
+                    color,
+                    width,
+                    height,
+                    text,
+                    ...req.body });
             } else if (blockType === 'arrow') {
                 blockTemplatePath = path.join(__dirname, '../template/arrowBlock.ejs');
+                renderedBlock = await ejs.renderFile(blockTemplatePath, {
+                    fontFamily,
+                    backcolor,
+                    fontSize,
+                    color,
+                    width,
+                    height,
+                    text,
+                    arrow,
+                    ...req.body });
             }
 
-            const renderedBlock = await ejs.renderFile(blockTemplatePath, {
-                fontFamily,
-                backcolor,
-                fontSize,
-                color,
-                width,
-                height,
-                text,
-                ...req.body });
             htmlBlocks[index] = renderedBlock;
             res.send();
         } catch (err) {

@@ -59,6 +59,11 @@ module.exports = (server) => {
                     text,
                     arrow,
                     ...req.body });
+            } else if (blockType === 'image') {
+                blockTemplatePath = path.join(__dirname, '../template/imageBlock.ejs');
+                renderedBlock = await ejs.renderFile(blockTemplatePath, {
+                    width,
+                    ...req.body });
             }
 
             htmlBlocks[index] = renderedBlock;

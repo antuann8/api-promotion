@@ -17,6 +17,21 @@ const fetch = require("node-fetch-npm");
 
 module.exports = (server) => {
 
+    let imageName = '';
+
+    server.post(`${config.API_PATH}/creator/change/getImageName`, async (req, res, next) => {
+        try {
+
+            imageName = req.body;
+
+            res.send();
+        } catch (err) {
+            console.log(666, err);
+            res.status(500).send('Internal Server Error');
+            next();
+        }
+    });
+
     server.post(`${config.API_PATH}/creator/change/image`, async (req, res, next) => {
         try {
             console.log('Фото получено');
@@ -38,8 +53,6 @@ module.exports = (server) => {
                     return response.status;
                 } catch (error) {
                     console.error(error);
-                    // В данном контексте у вас отсутствует переменная res, поэтому я закомментировал эту строку.
-                    // res.status(500).send(error.message);
                 }
             };
 
@@ -47,7 +60,7 @@ module.exports = (server) => {
             const base64String = req.body.toString('base64');
             // console.log(base64String);
             const uploadData = {
-                "name" : "ex.jpg",
+                "name" : imageName,
                 "section" : "postman",
                 "path" : "images/",
                 "data" : base64String,

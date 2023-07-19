@@ -80,10 +80,12 @@ module.exports = (server) => {
 
     server.post(`${config.API_PATH}/creator/addImageBlock`, async (req, res, next) => {
         try {
-
+            let imageUrl = 'https://s3.super-appz.ru/download/postman/images/ex.jpg';
             // Отрендерить HTML-блок с использованием EJS
             const blockTemplatePath = path.join(__dirname, '../template/imageBlock.ejs');
-            const renderedBlock = await ejs.renderFile(blockTemplatePath, { ...req.body });
+            const renderedBlock = await ejs.renderFile(blockTemplatePath, {
+                imageUrl,
+                ...req.body });
 
             // Добавление нового блока HTML-кода в массив
             htmlBlocks.push(renderedBlock);

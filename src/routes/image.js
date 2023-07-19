@@ -18,11 +18,13 @@ const fetch = require("node-fetch-npm");
 module.exports = (server) => {
 
     let imageName = '';
+    let index = 0;
 
     server.post(`${config.API_PATH}/creator/change/getImageName`, async (req, res, next) => {
         try {
 
-            imageName = req.body;
+            imageName = req.body.imageName;
+            index = req.body.index;
 
             res.send();
         } catch (err) {
@@ -65,9 +67,17 @@ module.exports = (server) => {
                 "path" : "images/",
                 "data" : base64String,
             }
-            console.log(uploadData);
+
             const response = await upload('https://s3.super-appz.ru/upload', uploadData);
             console.log(response);
+
+            const imageUrl = `https://s3.super-appz.ru/download/postman/images/${imageName}`;
+
+            const blockTemplatePath = path.join(__dirname, '../template/imageBlock.ejs');
+            const renderedBlock = await ejs.renderFile(blockTemplatePath, {
+                imageUrl,
+                ...req.body });
+            htmlBlocks[index] = renderedBlock;
             res.send();
         } catch (err) {
             console.log(666, err);

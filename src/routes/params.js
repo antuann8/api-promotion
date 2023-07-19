@@ -74,4 +74,22 @@ module.exports = (server) => {
             next();
         }
     });
+
+    // server.post(`${config.API_PATH}/creator/change/params`, async (req, res, next) => {
+    //     try {
+    //         const data = req.body; // Получение форм даты
+    //
+    //         const blockTemplatePath = path.join(__dirname, '../template/imageBlock.ejs');
+    //         const renderedBlock = await ejs.renderFile(blockTemplatePath, {
+    //             ...req.body });
+    //
+    //
+    //         htmlBlocks[data.index] = renderedBlock;
+    //         res.send();
+    //     } catch (err) {
+    //         console.log(666, err);
+    //         res.status(500).send('Internal Server Error');
+    //         next();
+    //     }
+    // });
 };

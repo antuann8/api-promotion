@@ -30,7 +30,7 @@ module.exports = (server) => {
     server.post(`${config.API_PATH}/promotion`, bodyParser.text(), async (req, res, next) => {
         try {
             const promoData = req.body; // Получаем тело запроса и сохраняем его в promoData
-
+            console.log('Запрос есть')
             console.log(promoData);
             console.log(path.join(__dirname, '../../public'));
 

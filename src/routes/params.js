@@ -3,7 +3,6 @@ const responses = require('../helpers/responses');
 
 // data
 const { htmlBlocks } = require('./creator.js');
-// const { imageUrl } = require('./image.js');
 
 // config
 const config = require('../config');
@@ -123,9 +122,8 @@ module.exports = (server) => {
                 }
             };
 
-
             const base64String = req.body.toString('base64');
-            // console.log(base64String);
+
             const uploadData = {
                 "name" : imageName,
                 "section" : "postman",

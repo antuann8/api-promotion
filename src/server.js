@@ -71,7 +71,7 @@ const routesStart = () => {
 	require('./routes/params')(server);
 	require('./routes/clear')(server);
 	require('./routes/block')(server);
-	require('./routes/image')(server);
+	// require('./routes/image')(server);
 	// external api
 	require('./routes/ext/complex')(server);
 	// server 2 server

@@ -4,6 +4,7 @@ const responses = require('../helpers/responses');
 // data
 const { htmlBlocks } = require('./creator.js');
 
+
 // config
 const config = require('../config');
 
@@ -75,6 +76,7 @@ module.exports = (server) => {
             }
 
             htmlBlocks[index] = renderedBlock;
+
             res.send();
         } catch (err) {
             console.log(666, err);
@@ -142,6 +144,7 @@ module.exports = (server) => {
                 width,
                 ...req.body });
             htmlBlocks[index] = renderedBlock;
+
             res.send();
         } catch (err) {
             console.log(666, err);

@@ -18,38 +18,17 @@ const fetch = require("node-fetch-npm");
 
 module.exports = (server) => {
 
-    server.post(`${config.API_PATH}/template/params`, async (req, res, next) => {
-        try {
-
-            const templates = req.body;
-
-            templates.map((template) => {
-                // console.log(`Мой индекс : ${template.index} , Моё значение : ${template.value}`);
-
-            })
-
-            res.status(200);
-        } catch (err) {
-            console.log(666, err);
-            res.status(500).send('Internal Server Error');
-            next();
-        }
-    });
-
-    // server.get(`${config.API_PATH}/template/get`, async (req, res, next) => {
+    // server.post(`${config.API_PATH}/template/params`, async (req, res, next) => {
     //     try {
-    //         const filePath = path.join(__dirname, '../template/letter.ejs');
-    //         const fileContent = await readFile(filePath);
     //
-    //         const regex = /{([^}]+)}/g;
+    //         const templates = req.body;
     //
-    //         if(regex.test(fileContent)) {
-    //             fileContent = replaceWithTemplate(fileContent, regex);
-    //         }
+    //         templates.map((template) => {
+    //             // console.log(`Мой индекс : ${template.index} , Моё значение : ${template.value}`);
     //
-    //         // console.log(text);
-    //         res.setHeader('Content-Type', 'text/html');
-    //         res.send(fileContent);
+    //         })
+    //
+    //         res.status(200);
     //     } catch (err) {
     //         console.log(666, err);
     //         res.status(500).send('Internal Server Error');
@@ -61,15 +40,43 @@ module.exports = (server) => {
         try {
             let html = req.body.html;
 
-            // console.log(html);
-
             const regex = /{([^}]+)}/g;
 
             if(regex.test(html)) {
                 html = replaceWithTemplate(html, regex);
             }
-            // Получаю в удобном формате
+
+            const upload = async (url, data) => {
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/html',
+                        'Authorization': 'postman.jt1FxnyrumJBs&V4V!5JfkG27ZUbor',
+                    },
+                    body: JSON.stringify(data),
+                };
+                try {
+                    const response = await fetch(url, options);
+                    console.log(response.status);
+                    return response.status;
+                } catch (error) {
+                    console.error(error);
+                }
+            };
             console.log(html);
+            const buffer = Buffer.from(html);
+            const base64String = buffer.toString('base64');
+
+            const uploadData = {
+                "name" : "check.html",
+                "section" : "postman",
+                "path" : "templates/",
+                "data" : base64String,
+            }
+
+            const response = await upload('https://s3.super-appz.ru/upload', uploadData);
+            console.log(response);
+            // console.log(html);
             res.send();
         } catch (err) {
             console.log(666, err);
@@ -78,17 +85,17 @@ module.exports = (server) => {
         }
     });
 
-    function readFile(filePath) {
-        return new Promise((resolve, reject) => {
-            fs.readFile(filePath, 'utf8', (err, data) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(data);
-                }
-            });
-        });
-    }
+    // function readFile(filePath) {
+    //     return new Promise((resolve, reject) => {
+    //         fs.readFile(filePath, 'utf8', (err, data) => {
+    //             if (err) {
+    //                 reject(err);
+    //             } else {
+    //                 resolve(data);
+    //             }
+    //         });
+    //     });
+    // }
 
     module.exports = { htmlBlocks };
 };

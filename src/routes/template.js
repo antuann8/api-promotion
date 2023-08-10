@@ -34,6 +34,7 @@ module.exports = (server) => {
     server.post(`${config.API_PATH}/template/create`, async (req, res, next) => {
         try {
             let html = req.body.html;
+            let name = req.body.name;
 
             const regex = /{([^}]+)}/g;
 
@@ -63,7 +64,7 @@ module.exports = (server) => {
             const base64String = buffer.toString('base64');
 
             const uploadData = {
-                "name" : "check2.html",
+                "name" : name,
                 "section" : "postman",
                 "path" : "templates/",
                 "data" : base64String,
@@ -72,6 +73,7 @@ module.exports = (server) => {
             const response = await upload('https://s3.super-appz.ru/upload', uploadData);
             console.log(response);
             // console.log(html);
+            // htmlBlocks.length = 0;
             res.send();
         } catch (err) {
             console.log(666, err);

@@ -3,7 +3,7 @@ const responses = require('../helpers/responses');
 
 // data
 const { htmlBlocks } = require('./creator.js');
-
+const generateHash = require('./../controllers/generateHash');
 
 // config
 const config = require('../config');
@@ -14,6 +14,7 @@ const fs = require("fs");
 const ejs = require("ejs");
 const fetch = require("node-fetch-npm");
 
+
 // start
 
 module.exports = (server) => {
@@ -22,11 +23,13 @@ module.exports = (server) => {
     let imageName = '';
     let index = 0;
     let width = '600px';
+    let extension = '.jpg';
 
     server.post(`${config.API_PATH}/creator/change/getImageName`, async (req, res, next) => {
         try {
 
-            imageName = req.body.imageName;
+            extension = req.body.extension;
+            imageName = `image-${generateHash(Date.now().toString())}.${extension}`;
             index = req.body.index;
             width = req.body.width;
 
@@ -82,7 +85,7 @@ module.exports = (server) => {
                 width,
                 ...req.body });
             htmlBlocks[index] = renderedBlock;
-
+            console.log(imageName);
             res.send();
         } catch (err) {
             console.log(666, err);

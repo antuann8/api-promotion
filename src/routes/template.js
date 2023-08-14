@@ -5,6 +5,9 @@ const responses = require('../helpers/responses');
 const { htmlBlocks } = require('./creator.js');
 const replaceWithTemplate = require('./../controllers/replaceWithTemplate');
 
+// models
+const TemplateName = require('../models/TemplateName');
+
 // config
 const config = require('../config');
 
@@ -13,6 +16,9 @@ const path = require("path");
 const fs = require("fs");
 const ejs = require("ejs");
 const fetch = require("node-fetch-npm");
+const User = require("../models/User");
+const utils = require("../helpers/utils");
+const {ok} = require("../helpers/responses");
 
 // start
 
@@ -20,10 +26,48 @@ module.exports = (server) => {
 
     const url = 'https://s3.super-appz.ru/download/postman/templates/';
 
-    server.get(`${config.API_PATH}/template/get`, async (req, res, next) => {
+    server.get(`${config.API_PATH}/template/names`, async (req, res, next) => {
         try {
+            const names = await TemplateName.find()
 
-            res.send();
+            res.send(names);
+        } catch (err) {
+            console.log(666, err);
+            res.status(500).send('Internal Server Error');
+            next();
+        }
+    });
+
+    server.post(`${config.API_PATH}/template/name/add`, async (req, res, next) => {
+        try {
+            const {name} = req.body;
+
+            const templateName = new TemplateName({
+                name,
+            });
+
+            const exist = await TemplateName.findOne({name});
+            console.log(exist);
+
+            if (exist) {
+                res.status(409);
+                res.send();
+                return next();
+            } else {
+                await templateName.save();
+                res.status(responses.ok.code);
+                res.send();
+                next();
+            }
+            // if (exist) {
+            //     res.status(responses.exist.code);
+            //     return next();
+            // }
+            // else {
+            //     await templateName.save();
+            //     res.status(responses.ok.code);
+            //     next();
+            // }
         } catch (err) {
             console.log(666, err);
             res.status(500).send('Internal Server Error');

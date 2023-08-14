@@ -28,7 +28,7 @@ module.exports = (server) => {
 
     server.get(`${config.API_PATH}/template/names`, async (req, res, next) => {
         try {
-            const names = await TemplateName.find()
+            const names = await TemplateName.find({}, 'name');
 
             res.send(names);
         } catch (err) {
@@ -59,15 +59,7 @@ module.exports = (server) => {
                 res.send();
                 next();
             }
-            // if (exist) {
-            //     res.status(responses.exist.code);
-            //     return next();
-            // }
-            // else {
-            //     await templateName.save();
-            //     res.status(responses.ok.code);
-            //     next();
-            // }
+
         } catch (err) {
             console.log(666, err);
             res.status(500).send('Internal Server Error');

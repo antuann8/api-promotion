@@ -61,7 +61,6 @@ module.exports = (server) => {
     server.post(`${config.API_PATH}/creator/addArrowBlock`, async (req, res, next) => {
         try {
 
-            console.log(req.body);
             // Отрендерить HTML-блок с использованием EJS
             const blockTemplatePath = path.join(__dirname, '../template/arrowBlock.ejs');
             const renderedBlock = await ejs.renderFile(blockTemplatePath, { ...req.body });

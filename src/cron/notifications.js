@@ -20,7 +20,7 @@ module.exports = () => {
 	// notification check
 
 	const checkNotifications = async () => {
-		console.log('pushes')
+		// console.log('pushes')
 
 		try {
 			//await pushSend('Тренировка', 'Пора на тренировку', '8050428124');

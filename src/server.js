@@ -73,6 +73,7 @@ const routesStart = () => {
 	require('./routes/block')(server);
 	require('./routes/template')(server);
 	require('./routes/image')(server);
+	require('./routes/mailing')(server);
 	// external api
 	require('./routes/ext/complex')(server);
 	// server 2 server
@@ -80,10 +81,10 @@ const routesStart = () => {
 };
 
 const cronStart = () => {
-	cron.schedule('*/1 * * * *', () => {
-		console.log('running a task every 1 minute');
-		//check order payed
-		require('./cron/notifications')();
+	cron.schedule(`*/1 * * * *`, () => {
+
+		// require('./cron/notifications')();
+
 	});
 };
 

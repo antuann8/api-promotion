@@ -1,0 +1,12 @@
+[
+  { "name": "Антон", "birthday": "02.02.2003", "email": "kashirin.antosha@mail.ru" },
+  { "name": "Екатерина", "birthday": "15.06.1998", "email": "ekaterina@example.com" },
+  { "name": "Михаил", "birthday": "10.12.2001", "email": "mikhail@example.com" },
+  { "name": "Анна", "birthday": "20.09.1995", "email": "anna@example.com" },
+  { "name": "Денис", "birthday": "08.05.1990", "email": "denis@example.com" },
+  { "name": "София", "birthday": "25.11.2005", "email": "sofia@example.com" },
+  { "name": "Иван", "birthday": "03.07.1993", "email": "ivan@example.com" },
+  { "name": "Алиса", "birthday": "02.02.2003", "email": "kashirin.antosha@mail.ru" },
+  { "name": "Дмитрий", "birthday": "29.08.1987", "email": "dmitry@example.com" },
+  { "name": "Ольга", "birthday": "12.01.1999", "email": "olga@example.com" }
+]

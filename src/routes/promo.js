@@ -111,7 +111,7 @@ module.exports = (server) => {
         try {
             const promoDataArray = req.body; // Используем req.body как массив объектов данных
 
-            console.log(promoDataArray);
+            // console.log(promoDataArray);
             console.log(path.join(__dirname, '../../public'));
 
             const filePath = path.join(__dirname, '../template/check.ejs');
@@ -143,6 +143,29 @@ module.exports = (server) => {
             }
 
             res.send();
+        } catch (error) {
+            console.error(error);
+            return next(error);
+        }
+    });
+
+    server.get(`${config.API_PATH}/get/example/users`, async (req, res, next) => {
+        try {
+
+            // Полный путь к файлу JSON
+            const filePath = path.join(__dirname, '../example-database/example-database.json');
+
+            // Чтение содержимого файла
+            fs.readFile(filePath, 'utf8', (err, data) => {
+                if (err) {
+                    console.error(err);
+                    return next(err);
+                }
+
+                // Отправляем содержимое файла как JSON
+                res.setHeader('Content-Type', 'application/json');
+                res.send(200, data);
+            });
         } catch (error) {
             console.error(error);
             return next(error);

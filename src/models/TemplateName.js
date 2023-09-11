@@ -9,6 +9,22 @@ const TemplateNameSchema = new mongoose.Schema({
         trim: true,
         required: true,
     },
+    conditionName: {
+        type: String,
+        trim: true,
+    },
+    status: {
+        type: String,
+        trim: true,
+    },
+    conditionNames: {
+        type: Array,
+        trim: true,
+    },
+    statuses: {
+        type: Array,
+        trim: true,
+    }
 });
 TemplateNameSchema.plugin(timestamp);
 

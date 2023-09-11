@@ -20,6 +20,9 @@ const server = restify.createServer({
 	version: config.VERSION
 });
 
+// cron
+const {birthdayTask} = require('./cron/cron-tasks/birthday-task')
+
 // middleware
 server.use(restify.plugins.jsonBodyParser());
 server.use(restify.plugins.queryParser());
@@ -60,7 +63,7 @@ server.listen(config.PORT, () => {
 			}
 		);
 	routesStart();
-	cronStart();
+	birthdayTask();
 });
 
 const routesStart = () => {
@@ -74,18 +77,11 @@ const routesStart = () => {
 	require('./routes/template')(server);
 	require('./routes/image')(server);
 	require('./routes/mailing')(server);
+	require('./routes/cron-tasks')(server);
 	// external api
 	require('./routes/ext/complex')(server);
 	// server 2 server
 	require('./routes/s2s/order')(server);
-};
-
-const cronStart = () => {
-	cron.schedule(`*/1 * * * *`, () => {
-
-		// require('./cron/notifications')();
-
-	});
 };
 
 // end

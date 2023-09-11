@@ -28,7 +28,7 @@ module.exports = (server) => {
 
     server.get(`${config.API_PATH}/template/names`, async (req, res, next) => {
         try {
-            const names = await TemplateName.find({}, 'name');
+            const names = await TemplateName.find();
 
             res.send(names);
         } catch (err) {

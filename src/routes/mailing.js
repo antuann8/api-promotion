@@ -25,15 +25,15 @@ module.exports = (server) => {
         }
     });
 
-    server.post(`${config.API_PATH}/change/mailing/conditions/:id`, async (req, res, next) => {
+    server.post(`${config.API_PATH}/change/mailing/conditions/:code`, async (req, res, next) => {
         try {
             const status = req.body;
-            const {id} = req.params;
+            const {code} = req.params;
 
             console.log(status);
-            console.log(id);
+            console.log(code);
 
-            const condition = await MailingCondition.findOne({ _id: id });
+            const condition = await MailingCondition.findOne({ code: code });
 
             if (!condition) {
                 return res.status(404).json({ message: 'Условие не найдено' });

@@ -13,11 +13,6 @@ const MailingConditionSchema = new mongoose.Schema({
         type: String,
         trim: true,
         required: true,
-    },
-    status: {
-        type: String,
-        trim: true,
-        required: true,
     }
 });
 MailingConditionSchema.plugin(timestamp);

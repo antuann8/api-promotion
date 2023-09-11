@@ -40,14 +40,18 @@ module.exports = (server) => {
 
     server.post(`${config.API_PATH}/template/name/add`, async (req, res, next) => {
         try {
-            const {name} = req.body;
+            const {name, conditionData} = req.body;
+
+            const status = conditionData.map(item => item.status)
+            const conditionId = conditionData.map(item => item.conditionId)
 
             const templateName = new TemplateName({
                 name,
+                status,
+                conditionId
             });
 
             const exist = await TemplateName.findOne({name});
-            console.log(exist);
 
             if (exist) {
                 res.status(409);

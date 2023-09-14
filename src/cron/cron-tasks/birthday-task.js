@@ -2,28 +2,36 @@
 const cron = require('node-cron');
 
 // models
-const MailingConditions = require('./../../models/MailingCondition')
+const TemplateName = require('./../../models/TemplateName');
 
-const birthdayTask = async () => {
+let cronBirthdayJob = null;
+const birthdayTask = async (index, id) => {
+    const template = await TemplateName.findOne({ _id: id });
+    const statusValue = template.status[index];
+    // const statusValue = status;
 
-    let flag = "";
-    const mailingConditions = await MailingConditions.find();
-
-    for (item of mailingConditions) {
-        if (item.code == "birthday") {
-            flag = item.status;
+    if (statusValue === "true") {
+        if (cronBirthdayJob === null) {
+            cronBirthdayJob = cron.schedule('*/5 * * * * *', () => {
+                require('./../birthday')();
+            });
         }
+    } else {
+        stopCronJob(cronBirthdayJob);
     }
+};
 
-    // console.log(mailingConditions);
-    // if (flag == "true") {
-    //     cron.schedule('*/5 * * * * *', () => {
-    //         // require('./cron/notifications')();
-    //         require('./../birthday')();
-    //     });
-    // }
+const stopCronJob = (cronJob) => {
+    if (cronJob !== null) {
+        // Если задача cron существует, уничтожаем ее
+        cronJob.stop();
+        cronJob = null;
+        console.log('Задача cron уничтожена')
+    }
 };
 
 module.exports = {
     birthdayTask,
+    stopCronJob,
+    cronJob,
 };

@@ -71,6 +71,28 @@ module.exports = (server) => {
         }
     });
 
+    server.post(`${config.API_PATH}/template/name/update/:id`, async (req, res, next) => {
+        try {
+            const { status, index } = req.body;
+            const { id } = req.params;
+
+            const template = await TemplateName.findOne({ _id: id });
+
+            if (!template) {
+                return res.status(404).send('Шаблон не найден');
+            }
+
+            // Обновление данных шаблона
+            template.status[index] = status;
+            await template.save();
+
+            res.send('Шаблон успешно обновлен');
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('Внутренняя ошибка сервера');
+        }
+    });
+
     server.post(`${config.API_PATH}/template/create`, async (req, res, next) => {
         try {
             let html = req.body.html;

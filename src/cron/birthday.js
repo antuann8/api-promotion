@@ -5,10 +5,10 @@ module.exports = () => {
         try {
             // Обращаемся к базе данных, чтобы получить users, в нашем случае будем использовать тестовые данные
             const users = [
-                {"name": "Anton", "birthday": "02.02.2003", "age" : 18, "email": "kashirin.antosha@mail.ru"},
-                {"name": "Arslan", "birthday": "06.09.2002", "age" : 18, "email": "arslan@example.com"},
-                {"name": "Valera", "birthday": "06.09.2003", "age" : 18, "email": "valera@example.com"},
-                {"name": "Vasya", "birthday": "05.09.2003", "age" : 18, "email": "vasya@example.com"}
+                {"name": "Anton", "birthday": "14.09.2003", "age" : 18, "email": "kashirin.antosha@mail.ru"},
+                {"name": "Arslan", "birthday": "13.09.2002", "age" : 18, "email": "arslan@example.com"},
+                {"name": "Valera", "birthday": "13.09.2003", "age" : 18, "email": "valera@example.com"},
+                {"name": "Vasya", "birthday": "13.09.2003", "age" : 18, "email": "vasya@example.com"}
             ];
 
             // Получить текущую дату

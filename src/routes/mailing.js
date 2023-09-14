@@ -25,29 +25,29 @@ module.exports = (server) => {
         }
     });
 
-    server.post(`${config.API_PATH}/change/mailing/conditions/:code`, async (req, res, next) => {
-        try {
-            const status = req.body;
-            const {code} = req.params;
-
-            console.log(status);
-            console.log(code);
-
-            const condition = await MailingCondition.findOne({ code: code });
-
-            if (!condition) {
-                return res.status(404).json({ message: 'Условие не найдено' });
-            }
-
-            condition.status = status;
-            await condition.save();
-
-            res.send();
-            return next();
-        } catch (error) {
-            console.error(error);
-            return next(error);
-        }
-    });
+    // server.post(`${config.API_PATH}/change/mailing/conditions/:code`, async (req, res, next) => {
+    //     try {
+    //         const status = req.body;
+    //         const {code} = req.params;
+    //
+    //         console.log(status);
+    //         console.log(code);
+    //
+    //         const condition = await MailingCondition.findOne({ code: code });
+    //
+    //         if (!condition) {
+    //             return res.status(404).json({ message: 'Условие не найдено' });
+    //         }
+    //
+    //         condition.status = status;
+    //         await condition.save();
+    //
+    //         res.send();
+    //         return next();
+    //     } catch (error) {
+    //         console.error(error);
+    //         return next(error);
+    //     }
+    // });
 
 }

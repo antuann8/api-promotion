@@ -15,6 +15,7 @@ const MailingCondition = require("../models/MailingCondition");
 
 // cron-tasks
 const { birthdayTask } = require('./../cron/cron-tasks/birthday-task');
+const {checkBirthdayMonthAndDay} = require('./../cron/birthday')
 const TemplateName = require("../models/TemplateName");
 
 
@@ -38,11 +39,11 @@ module.exports = (server) => {
 
     server.post(`${config.API_PATH}/cron/update/:id`, async (req, res, next) => {
         try {
-            const {index, condition} = req.body;
+            const {index, condition, status} = req.body;
             const { id } = req.params;
             // Соответственно в зависимости от условия буду менять status[index]
             if (condition === 'birthday') {
-                await birthdayTask(index, id);
+                await birthdayTask(index, status);
             }
             res.send();
         } catch (err) {

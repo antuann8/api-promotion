@@ -1,11 +1,8 @@
-// start
-module.exports = () => {
-
-    const checkBirthdayMonthAndDay = async () => {
+const checkBirthdayMonthAndDay = async () => {
         try {
             // Обращаемся к базе данных, чтобы получить users, в нашем случае будем использовать тестовые данные
             const users = [
-                {"name": "Anton", "birthday": "14.09.2003", "age" : 18, "email": "kashirin.antosha@mail.ru"},
+                {"name": "Anton", "birthday": "19.09.2003", "age" : 18, "email": "kashirin.antosha@mail.ru"},
                 {"name": "Arslan", "birthday": "13.09.2002", "age" : 18, "email": "arslan@example.com"},
                 {"name": "Valera", "birthday": "13.09.2003", "age" : 18, "email": "valera@example.com"},
                 {"name": "Vasya", "birthday": "13.09.2003", "age" : 18, "email": "vasya@example.com"}
@@ -27,15 +24,16 @@ module.exports = () => {
             });
 
             // Получить email-ы совпадающих пользователей
-            const matchingEmails = matchingUsers.map((user) => user.email);
+            // const matchingEmails = matchingUsers.map((user) => user.email); // Здесь много массивов email
+            const modifiedUsers = matchingUsers.map(user => ({
+                name: user.name,
+                email: user.email
+            }));
 
-            console.log('Email пользователей с совпадающими днями рождения с текущей датой:', matchingEmails);
+            return modifiedUsers;
         } catch (err) {
             console.log(666, err);
         }
     };
 
-// start
-    checkBirthdayMonthAndDay();
-
-};
+module.exports = {checkBirthdayMonthAndDay}

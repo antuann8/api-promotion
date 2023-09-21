@@ -2,8 +2,8 @@ const checkBirthdayMonthAndDay = async () => {
         try {
             // Обращаемся к базе данных, чтобы получить users, в нашем случае будем использовать тестовые данные
             const users = [
-                {"name": "Anton", "birthday": "19.09.2003", "age" : 18, "email": "kashirin.antosha@mail.ru"},
-                {"name": "Arslan", "birthday": "13.09.2002", "age" : 18, "email": "arslan@example.com"},
+                {"name": "Антон", "birthday": "21.09.2003", "age" : 18, "email": "anton.kashirin.work.acc@gmail.com"},
+                {"name": "Арслан", "birthday": "20.09.2002", "age" : 18, "email": "anton.kashirin.work.acc@gmail.com"},
                 {"name": "Valera", "birthday": "13.09.2003", "age" : 18, "email": "valera@example.com"},
                 {"name": "Vasya", "birthday": "13.09.2003", "age" : 18, "email": "vasya@example.com"}
             ];

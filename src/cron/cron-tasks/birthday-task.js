@@ -14,18 +14,27 @@ const {sendPromotionsEmails} = require("../../controllers/sendPromotionsEmails")
 
 // models
 const TemplateName = require('./../../models/TemplateName');
+const MailingCondition = require('../../models/MailingCondition');
 
-
-const startBirthdayCronJob = async (cronJob) => {
+function checkStatuses(statuses, statusIndexes) {
+    const results = [];
+    for (let i = 0; i < statusIndexes.length; i++) {
+        const index = statusIndexes[i];
+        results.push(statuses[i][index] === 'true');
+    }
+    return results;
+}
+const startBirthdayCronJob = async (cronJob, matchingNames) => {
 
     if (cronJob === null) {
         // Создаем новую задачу cron, только если она еще не существует
         cronJob = cron.schedule('*/10 * * * * *', async () => {
             try {
                 const users = await checkBirthdayMonthAndDay();
-                // console.log(users);
-                const result = await sendPromotionsEmails(users);
-                console.log(result);
+                console.log(users);
+                console.log(matchingNames);
+                const result = await sendPromotionsEmails(users, matchingNames);
+                // console.log(result);
                 // await axios.post('http://localhost:8190/api/v1/promotions', users);
 
             } catch (error) {
@@ -39,14 +48,42 @@ const startBirthdayCronJob = async (cronJob) => {
 
 
 let cronBirthdayJob = null;
-const birthdayTask = async (index, status) => {
+const birthdayTask = async (isSend) => {
+
     try {
-        const statusValue = status;
-        console.log(statusValue);
+        // const template = await TemplateName.find({});
+        const mailing = await MailingCondition.findOne({code: "birthday"});
 
-        if (statusValue === "true") {
-            const cronJob = await startBirthdayCronJob(cronBirthdayJob); // Получаем результат из startBirthdayCronJob
+        const birthdayId = mailing._id.toString();
 
+        const template = await TemplateName.find({conditionId: birthdayId})
+
+        if (!template) {
+            return res.status(404).send('Шаблон не найден');
+        }
+
+        const templateNames = template.map(name => name.name);
+
+        const conditions = template.map(condition => condition.conditionId)
+
+        const statuses = template.map(status => status.status)
+
+        const statusIndexes = conditions.map(item => item.indexOf(birthdayId));
+
+        const result = checkStatuses(statuses, statusIndexes);
+
+        let matchingNames = [];
+
+        for (let i = 0; i < result.length; i++) {
+            if (result[i] == true) {
+                matchingNames.push(templateNames[i]);
+            }
+        }
+
+        const isActive = result.find(item => item == true)
+
+        if (isActive) {
+            const cronJob = await startBirthdayCronJob(cronBirthdayJob, matchingNames);
             cronBirthdayJob = cronJob;
         } else {
             cronBirthdayJob = stopCronJob(cronBirthdayJob); // Обновляем значение cronBirthdayJob

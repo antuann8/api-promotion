@@ -39,12 +39,12 @@ module.exports = (server) => {
 
     server.post(`${config.API_PATH}/cron/update/:id`, async (req, res, next) => {
         try {
-            const {index, condition, status} = req.body;
+            const {index, condition, status, isSend} = req.body;
             const { id } = req.params;
             // Соответственно в зависимости от условия буду менять status[index]
-            if (condition === 'birthday') {
-                await birthdayTask(index, status);
-            }
+            // if (condition === 'birthday') {
+                await birthdayTask(isSend);
+            // }
             res.send();
         } catch (err) {
             console.error(err);

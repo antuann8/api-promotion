@@ -42,8 +42,10 @@ module.exports = (server) => {
         try {
             const {name, conditionData} = req.body;
 
-            const status = conditionData.map(item => item.status)
-            const conditionId = conditionData.map(item => item.conditionId)
+            const conditionDataArray = Array.isArray(conditionData) ? conditionData : [conditionData];
+
+            const status = conditionDataArray.map(item => item.status)
+            const conditionId = conditionDataArray.map(item => item.conditionId)
 
             const templateName = new TemplateName({
                 name,
